@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
             startX = event.clientX;
             startY = event.clientY;
         } else {
-            highlightPixel(x, y);
+           
             coordinatesElement.textContent = `X: ${x}, Y: ${y}`;
         }
     });
@@ -236,34 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
   
-    function highlightPixel(x, y) {
-        // Убираем подсветку с предыдущего пикселя
-        if (previousPixel.x !== null && previousPixel.y !== null) {
-            restorePixel(previousPixel.x, previousPixel.y);
-        }
-  
-        // Отображаем подсветку на новом пикселе
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'; // Полупрозрачный черный цвет
-        ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
-  
-        // Обновляем предыдущие координаты пикселя
-        previousPixel.x = x;
-        previousPixel.y = y;
-    }
-  
-    function restorePixel(x, y) {
-        // Восстанавливаем пиксель до сохраненного цвета
-        if (pixels[`${x},${y}`]) {
-            ctx.fillStyle = pixels[`${x},${y}`];
-            ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
-        } else {
-            // Если цвет не сохранен, восстанавливаем белый цвет
-            ctx.clearRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
-            ctx.fillStyle = '#FFF'; // Цвет фона для восстановления
-            ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
-        }
-    }
-  
+    
     zoomInButton.addEventListener('click', () => {
         // Увеличиваем масштаб холста
         scale += 0.1;

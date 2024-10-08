@@ -7,25 +7,24 @@ const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
-app.use(express.static('public')); // Сервируем статические файлы из папки public
+app.use(express.static('public')); 
 
-// Конфигурация подключения к базе данных
 const dbConfig = {
-    host: 'localhost', // Укажите правильный хост
-    user: 'root', // Укажите правильного пользователя
-    password: 'Tima2006', // Укажите правильный пароль
-    database: 'pixelBattle', // Укажите правильное имя базы данных
-    port: 3306 // Порт по умолчанию для MySQL
+    host: 'localhost', 
+    user: 'root', 
+    password: 'Tima2006', 
+    database: 'pixelBattle', 
+    port: 3306 
 };
 
 wss.on('connection', (ws) => {
     console.log('Client connected');
 
     ws.on('message', async (message) => {
-        const parsedMessage = JSON.parse(message.toString());  // Преобразуем буфер в строку и разбираем JSON
+        const parsedMessage = JSON.parse(message.toString());  
         console.log('Received message:', parsedMessage);
 
-        // Проверяем наличие поля userName и устанавливаем значение по умолчанию, если оно отсутствует
+        // Убеждаемся, что имя пользователя присутствует
         if (!parsedMessage.userName) {
             parsedMessage.userName = 'Unknown';
         }
@@ -37,6 +36,7 @@ wss.on('connection', (ws) => {
                 'INSERT INTO Pixels (X, Y, Color, UserName) VALUES (?, ?, ?, ?)',
                 [parsedMessage.x, parsedMessage.y, parsedMessage.color, parsedMessage.userName]
             );
+            console.log('Data saved to database:', rows);
             connection.end();
         } catch (err) {
             console.error('Database error:', err);
@@ -45,7 +45,7 @@ wss.on('connection', (ws) => {
         // Рассылаем сообщение всем подключенным клиентам
         wss.clients.forEach((client) => {
             if (client.readyState === WebSocket.OPEN) {
-                client.send(JSON.stringify(parsedMessage));  // Отправляем сообщение в формате JSON
+                client.send(JSON.stringify(parsedMessage));  
             }
         });
     });
