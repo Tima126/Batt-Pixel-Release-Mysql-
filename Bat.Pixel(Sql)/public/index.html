@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixel Art</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="styleSwitcher.js" defer></script>
+</head>
+<body>
+  <main>
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <h2>Добро пожаловать в PixelBattle!</h2>
+        <p>Пожалуйста введи своё имя:</p>
+        <input type="text" id="username" placeholder="Your name">
+        <button id="submitName">Submit</button>
+      </div>
+    </div>
+    
+    <div class="canvas-container">
+      <canvas id="canvas" width="800" height="600" aria-label="Pixel Art Canvas"></canvas>
+    </div>
+    <div class="controls">
+      <input type="color" id="colorPicker">
+      <button id="clearButton">Clear Canvas</button>
+    </div>
+    <div id="timer">30</div>
+    <div id="coordinates">X: 0, Y: 0</div>
+    <div class="zoom-controls">
+      <button id="zoomInButton">+</button>
+      <button id="zoomOutButton">-</button>
+    </div>
+    <div class="mode-controls">
+      <button id="drawButton">Рисовать</button>
+      <button id="moveButton">Передвигать</button>
+  </div>
+  </main>
+  <script>
+    const modal = document.getElementById('modal');
+    const usernameInput = document.getElementById('username');
+    const submitNameButton = document.getElementById('submitName');
+    let userName = '';
+
+    const ws = new WebSocket('ws://localhost:3000');
+
+    // Открываем модальное окно для ввода имени, если имя еще не задано
+    modal.style.display = 'block';
+
+    // Закрываем модальное окно после ввода имени и отправляем имя на сервер
+    submitNameButton.addEventListener('click', () => {
+      userName = usernameInput.value.trim();
+      if (userName) {
+        modal.style.display = 'none';
+        localStorage.setItem('userName', userName); // Сохраняем имя в localStorage
+
+        // Пример отправки данных на сервер через WebSocket
+        const pixelData = {
+          x: 0,  // Пример координаты X
+          y: 0,  // Пример координаты Y
+          color: '#ffffff',  // Пример цвета
+          userName: userName  // Имя пользователя
+        };
+
+        ws.send(JSON.stringify(pixelData));  // Отправляем данные на сервер
+      } else {
+        alert('Пожалуйста, введите имя!');
+      }
+    });
+
+    ws.onmessage = (message) => {
+      const data = JSON.parse(message.data);
+      console.log('Получены данные с сервера:', data);
+      // Здесь можно обновить канвас новыми пикселями от других пользователей
+    };
+
+  </script>
+  <script src="Pain.js" defer></script>
+  <script src="PainMobile.js" defer></script>
+</body>
+</html>
