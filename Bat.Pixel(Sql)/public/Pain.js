@@ -5,16 +5,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const bufferCtx = bufferCanvas.getContext('2d');
     const colorPicker = document.getElementById('colorPicker');
     const clearButton = document.getElementById('clearButton');
-    const timerElement = document.getElementById('timer');
+
     const canvasContainer = document.querySelector('.canvas-container');
     const coordinatesElement = document.getElementById('coordinates');
     const zoomInButton = document.getElementById('zoomInButton');
     const zoomOutButton = document.getElementById('zoomOutButton');
   
-    const socket = new WebSocket('ws://192.168.1.7:3000'); // Замените localhost на IP-адрес сервера
+    const socket = new WebSocket('ws://192.168.251.36:3000'); 
   
     const pixelSize = 10; // Размер пикселя
-    const drawCooldown = 30000; // 30 секунд в миллисекундах
+    const drawCooldown = 10000; 
   
     bufferCanvas.width = canvas.width;
     bufferCanvas.height = canvas.height;

@@ -13,7 +13,7 @@ const dbConfig = {
     host: 'localhost', 
     user: 'root', 
     password: 'Tima2006', 
-    database: 'pixelBattle', 
+    database: 'battle_pixe', 
     port: 3306 
 };
 

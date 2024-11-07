@@ -10,14 +10,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const coordinatesElement = document.getElementById('coordinates');
     const zoomInButton = document.getElementById('zoomInButton');
     const zoomOutButton = document.getElementById('zoomOutButton');
-    const fullscreenButton = document.getElementById('fullscreenButton');
+
     const drawButton = document.getElementById('drawButton');
     const moveButton = document.getElementById('moveButton');
   
     const socket = new WebSocket('ws://192.168.1.7:3000'); // Замените localhost на IP-адрес сервера
   
     const pixelSize = 10; // Размер пикселя
-    const drawCooldown = 30000; // 30 секунд в миллисекундах
+    const drawCooldown = 10000; // 30 секунд в миллисекундах
   
     bufferCanvas.width = canvas.width;
     bufferCanvas.height = canvas.height;
@@ -116,43 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
         saveCanvasState(); // Сохраняем состояние после очистки
     });
   
-    canvas.addEventListener('mousedown', (event) => {
-        if (event.button === 0) { // Левая кнопка мыши
-            if (canDraw()) {
-                canvasContainer.style.cursor = 'default';
-                draw(event);
-            }
-        } else if (event.button === 1 || event.button === 2) { // Средняя или правая кнопка мыши
-            isDragging = true;
-            startX = event.clientX;
-            startY = event.clientY;
-            canvasContainer.style.cursor = 'grab';
-        }
-    });
-  
-    canvas.addEventListener('mousemove', (event) => {
-        const rect = canvas.getBoundingClientRect();
-        const x = Math.floor((event.clientX - rect.left) / (pixelSize * scale));
-        const y = Math.floor((event.clientY - rect.top) / (pixelSize * scale));
-  
-        if (isDragging) {
-            offsetX += event.clientX - startX;
-            offsetY += event.clientY - startY;
-            canvas.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
-            startX = event.clientX;
-            startY = event.clientY;
-        } else {
-           
-            coordinatesElement.textContent = `X: ${x}, Y: ${y}`;
-        }
-    });
-  
-    canvas.addEventListener('mouseup', (event) => {
-        if (event.button === 1 || event.button === 2) { // Средняя или правая кнопка мыши
-            isDragging = false;
-            canvasContainer.style.cursor = 'grab';
-        }
-    });
 
     // Добавляем поддержку касаний для мобильных устройств
     canvas.addEventListener('touchstart', (event) => {
