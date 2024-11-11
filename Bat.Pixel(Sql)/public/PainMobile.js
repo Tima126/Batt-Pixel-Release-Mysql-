@@ -115,6 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         saveCanvasState(); // Сохраняем состояние после очистки
     });
+<<<<<<< Updated upstream
   
 <<<<<<< HEAD
 =======
@@ -156,6 +157,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 >>>>>>> parent of 4921863 (GotovoSql)
+=======
+
+>>>>>>> Stashed changes
 
     // Добавляем поддержку касаний для мобильных устройств
     canvas.addEventListener('touchstart', (event) => {
@@ -239,33 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
   
-    function highlightPixel(x, y) {
-        // Убираем подсветку с предыдущего пикселя
-        if (previousPixel.x !== null && previousPixel.y !== null) {
-            restorePixel(previousPixel.x, previousPixel.y);
-        }
-  
-        // Отображаем подсветку на новом пикселе
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'; // Полупрозрачный черный цвет
-        ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
-  
-        // Обновляем предыдущие координаты пикселя
-        previousPixel.x = x;
-        previousPixel.y = y;
-    }
-  
-    function restorePixel(x, y) {
-        // Восстанавливаем пиксель до сохраненного цвета
-        if (pixels[`${x},${y}`]) {
-            ctx.fillStyle = pixels[`${x},${y}`];
-            ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
-        } else {
-            // Если цвет не сохранен, восстанавливаем белый цвет
-            ctx.clearRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
-            ctx.fillStyle = '#FFF'; // Цвет фона для восстановления
-            ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
-        }
-    }
+
   
     zoomInButton.addEventListener('click', () => {
         // Увеличиваем масштаб холста

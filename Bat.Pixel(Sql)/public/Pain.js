@@ -14,7 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const socket = new WebSocket('ws://192.168.50.36:3000'); 
   
     const pixelSize = 10; // Размер пикселя
+<<<<<<< Updated upstream
     const drawCooldown = 10000; 
+=======
+    const drawCooldown = 10000; // 30 секунд в миллисекундах
+>>>>>>> Stashed changes
   
     bufferCanvas.width = canvas.width;
     bufferCanvas.height = canvas.height;
@@ -153,33 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Добавляем поддержку касаний для мобильных устройств
-    canvas.addEventListener('touchstart', (event) => {
-        const touch = event.touches[0];
-        if (canDraw()) {
-            isTouchDrawing = true;
-            draw({ clientX: touch.clientX, clientY: touch.clientY });
-        }
-    });
-  
-    canvas.addEventListener('touchmove', (event) => {
-        event.preventDefault(); // Предотвращаем прокрутку при рисовании
-        if (isTouchDrawing) {
-            const touch = event.touches[0];
-            draw({ clientX: touch.clientX, clientY: touch.clientY });
-        }
-    });
-  
-    canvas.addEventListener('touchend', () => {
-        isTouchDrawing = false;
-    });
-  
-    canvas.addEventListener('mouseleave', () => {
-        isDragging = false;
-        isDrawing = false; // Сбрасываем флаг рисования
-        canvasContainer.style.cursor = 'default';
-        coordinatesElement.textContent = `X: 0, Y: 0`;
-    });
+
+ 
   
     canvas.addEventListener('contextmenu', (event) => {
         event.preventDefault(); // Предотвращаем появление контекстного меню
