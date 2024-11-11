@@ -157,12 +157,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+<<<<<<< Updated upstream
 
  
+=======
+   
+
   
-    canvas.addEventListener('contextmenu', (event) => {
-        event.preventDefault(); // Предотвращаем появление контекстного меню
+
+    canvas.addEventListener('mouseleave', () => {
+        isDragging = false;
+        isDrawing = false; // Сбрасываем флаг рисования
+        canvasContainer.style.cursor = 'default';
+        coordinatesElement.textContent = `X: 0, Y: 0`;
     });
+>>>>>>> Stashed changes
+  
+
   
     function draw(event) {
         const rect = canvas.getBoundingClientRect();
