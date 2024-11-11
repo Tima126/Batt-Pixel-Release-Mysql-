@@ -116,6 +116,46 @@ document.addEventListener('DOMContentLoaded', () => {
         saveCanvasState(); // Сохраняем состояние после очистки
     });
   
+<<<<<<< HEAD
+=======
+    canvas.addEventListener('mousedown', (event) => {
+        if (event.button === 0) { // Левая кнопка мыши
+            if (canDraw()) {
+                canvasContainer.style.cursor = 'default';
+                draw(event);
+            }
+        } else if (event.button === 1 || event.button === 2) { // Средняя или правая кнопка мыши
+            isDragging = true;
+            startX = event.clientX;
+            startY = event.clientY;
+            canvasContainer.style.cursor = 'grab';
+        }
+    });
+  
+    canvas.addEventListener('mousemove', (event) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = Math.floor((event.clientX - rect.left) / (pixelSize * scale));
+        const y = Math.floor((event.clientY - rect.top) / (pixelSize * scale));
+  
+        if (isDragging) {
+            offsetX += event.clientX - startX;
+            offsetY += event.clientY - startY;
+            canvas.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
+            startX = event.clientX;
+            startY = event.clientY;
+        } else {
+            highlightPixel(x, y);
+            coordinatesElement.textContent = `X: ${x}, Y: ${y}`;
+        }
+    });
+  
+    canvas.addEventListener('mouseup', (event) => {
+        if (event.button === 1 || event.button === 2) { // Средняя или правая кнопка мыши
+            isDragging = false;
+            canvasContainer.style.cursor = 'grab';
+        }
+    });
+>>>>>>> parent of 4921863 (GotovoSql)
 
     // Добавляем поддержку касаний для мобильных устройств
     canvas.addEventListener('touchstart', (event) => {
@@ -199,7 +239,34 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
   
-    
+    function highlightPixel(x, y) {
+        // Убираем подсветку с предыдущего пикселя
+        if (previousPixel.x !== null && previousPixel.y !== null) {
+            restorePixel(previousPixel.x, previousPixel.y);
+        }
+  
+        // Отображаем подсветку на новом пикселе
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'; // Полупрозрачный черный цвет
+        ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
+  
+        // Обновляем предыдущие координаты пикселя
+        previousPixel.x = x;
+        previousPixel.y = y;
+    }
+  
+    function restorePixel(x, y) {
+        // Восстанавливаем пиксель до сохраненного цвета
+        if (pixels[`${x},${y}`]) {
+            ctx.fillStyle = pixels[`${x},${y}`];
+            ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
+        } else {
+            // Если цвет не сохранен, восстанавливаем белый цвет
+            ctx.clearRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
+            ctx.fillStyle = '#FFF'; // Цвет фона для восстановления
+            ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
+        }
+    }
+  
     zoomInButton.addEventListener('click', () => {
         // Увеличиваем масштаб холста
         scale += 0.1;

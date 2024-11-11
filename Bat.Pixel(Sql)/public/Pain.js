@@ -26,9 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let scale = 1; // Масштаб холста
     let isTouchDrawing = false; // Флаг для рисования при касании экрана
     let isDrawing = false; // Флаг для рисования мышью
-    
-    
-   
+  
     socket.addEventListener('open', () => {
         console.log('WebSocket connection established');
     });
@@ -121,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 draw(event);
             }
         } else if (event.button === 1 || event.button === 2) { // Средняя или правая кнопка мыши
-            isDragging = false;
+            isDragging = true;
             startX = event.clientX;
             startY = event.clientY;
             canvasContainer.style.cursor = 'grab';
@@ -132,10 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const rect = canvas.getBoundingClientRect();
         const x = Math.floor((event.clientX - rect.left) / (pixelSize * scale));
         const y = Math.floor((event.clientY - rect.top) / (pixelSize * scale));
-        
-        // Присваиваем координаты для отображения
-        coordinatesElement.textContent = `X: ${x}, Y: ${y}`;
-        
+  
         if (isDragging) {
             offsetX += event.clientX - startX;
             offsetY += event.clientY - startY;
@@ -143,10 +138,11 @@ document.addEventListener('DOMContentLoaded', () => {
             startX = event.clientX;
             startY = event.clientY;
         } else if (isDrawing) {
-            draw(event); // Вызываем функцию рисования только если рисуем
+            draw(event);
+        } else {
+            coordinatesElement.textContent = `X: ${x}, Y: ${y}`;
         }
     });
-    
   
     canvas.addEventListener('mouseup', (event) => {
         if (event.button === 0) { // Левая кнопка мыши
@@ -202,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
         // Отправляем данные на сервер через WebSocket
         if (socket.readyState === WebSocket.OPEN) {
-            const data = JSON.stringify({ x, y, color, userName });
+            const data = JSON.stringify({ x, y, color });
             socket.send(data);
         } else {
             console.error('WebSocket is not open. Unable to send data.');
