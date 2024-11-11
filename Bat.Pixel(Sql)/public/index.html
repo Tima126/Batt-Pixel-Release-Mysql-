@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pixel Art</title>
+  <title>Пиксельная Арт</title>
   <link rel="stylesheet" href="styles.css">
   <script src="styleSwitcher.js" defer></script>
 </head>
@@ -12,18 +12,18 @@
     <div id="modal" class="modal">
       <div class="modal-content">
         <h2>Добро пожаловать в PixelBattle!</h2>
-        <p>Пожалуйста введи своё имя:</p>
-        <input type="text" id="username" placeholder="Your name">
-        <button id="submitName">Submit</button>
+        <p>Пожалуйста, введите ваше имя:</p>
+        <input type="text" id="username" placeholder="Ваше имя">
+        <button id="submitName">Отправить</button>
       </div>
     </div>
     
     <div class="canvas-container">
-      <canvas id="canvas" width="800" height="600" aria-label="Pixel Art Canvas"></canvas>
+      <canvas id="canvas" width="800" height="600" aria-label="Пиксельная Арт Канвас"></canvas>
     </div>
     <div class="controls">
       <input type="color" id="colorPicker">
-      <button id="clearButton">Clear Canvas</button>
+      <button id="clearButton">Очистить Канвас</button>
     </div>
     <div id="timer">10</div>
     <div id="coordinates">X: 0, Y: 0</div>
@@ -34,7 +34,7 @@
     <div class="mode-controls">
       <button id="drawButton">Рисовать</button>
       <button id="moveButton">Передвигать</button>
-  </div>
+    </div>
   </main>
   <script>
     const modal = document.getElementById('modal');

@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const zoomInButton = document.getElementById('zoomInButton');
     const zoomOutButton = document.getElementById('zoomOutButton');
   
-    const socket = new WebSocket('ws://192.168.17.72:3000'); 
+    const socket = new WebSocket('ws://192.168.50.36:3000'); 
   
     const pixelSize = 10; // Размер пикселя
     const drawCooldown = 10000; 
