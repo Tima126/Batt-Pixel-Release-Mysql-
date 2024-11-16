@@ -7,29 +7,40 @@ const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
-app.use(express.static('public')); 
+app.use(express.static('public'));
 
 const dbConfig = {
     host: 'localhost', 
     user: 'root', 
     password: 'Tima2006', 
-    database: 'pixelBattle', 
+    database: 'battle_pixe', 
     port: 3306 
 };
+
+// Маршрут для очистки холста
+app.get('/clear', (req, res) => {
+    // Отправляем команду всем подключенным клиентам для очистки холста
+    wss.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify({ clear: true })); 
+        }
+    });
+
+    console.log('Canvas clear command sent to all clients');
+    res.send('Canvas cleared');
+});
 
 wss.on('connection', (ws) => {
     console.log('Client connected');
 
     ws.on('message', async (message) => {
-        const parsedMessage = JSON.parse(message.toString());  
+        const parsedMessage = JSON.parse(message.toString());
         console.log('Received message:', parsedMessage);
 
-        // Убеждаемся, что имя пользователя присутствует
         if (!parsedMessage.userName) {
             parsedMessage.userName = 'Unknown';
         }
 
-        // Сохраняем данные в базу данных
         try {
             const connection = await mysql.createConnection(dbConfig);
             const [rows, fields] = await connection.execute(
@@ -42,10 +53,10 @@ wss.on('connection', (ws) => {
             console.error('Database error:', err);
         }
 
-        // Рассылаем сообщение всем подключенным клиентам
+        // Отправляем обновленную информацию всем клиентам
         wss.clients.forEach((client) => {
             if (client.readyState === WebSocket.OPEN) {
-                client.send(JSON.stringify(parsedMessage));  
+                client.send(JSON.stringify(parsedMessage));
             }
         });
     });
