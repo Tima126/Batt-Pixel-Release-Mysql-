@@ -4,11 +4,11 @@ body, html {
   overflow: hidden;
   height: 100%;
   background-color: #ffffff;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: "M PLUS Rounded 1c", sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #333;
+  color: #000000;
 }
 /* Модальное окно (фон) */
 .modal {
@@ -17,11 +17,12 @@ body, html {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный фон */
+  background-color: rgb(0, 89, 255); /* Полупрозрачный черный фон */
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Поверх всего контента */
+  z-index: 1000; 
+
 }
 
 /* Контент модального окна */
@@ -30,20 +31,20 @@ body, html {
   padding: 20px;
   border-radius: 12px;
   text-align: center;
-  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 4px 16px rgb(11, 126, 220);
   width: 300px;
   max-width: 80%;
-  animation: fadeIn 0.3s ease-out;
+
 }
 
 /* Стили для текста и элементов */
 .modal-content h2 {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: "M PLUS Rounded 1c", sans-serif;
   margin-bottom: 15px;
 }
 
 .modal-content p {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family:"M PLUS Rounded 1c", sans-serif;
   margin-bottom: 15px;
 }
 
@@ -51,30 +52,29 @@ body, html {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
-  border: 1px solid #ccc;
+  border: 1px solid #2855ea;
   border-radius: 8px;
   font-size: 16px;
+  font-family:"M PLUS Rounded 1c", sans-serif ;
 }
 
 .modal-content button {
   padding: 10px 20px;
-  background-color: #007aff; /* Синий цвет Apple */
-  color: white;
+  background-color: #0051ff; 
+  color: rgb(0, 0, 0);
   border: none;
   border-radius: 8px;
   font-size: 16px;
   cursor: pointer;
+  font-family:"M PLUS Rounded 1c", sans-serif ;
+  font-weight: 400;
 }
 
 .modal-content button:hover {
   background-color: #005bb5;
 }
 
-/* Анимация появления */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
+
 
 .canvas-container {
   position: absolute;
@@ -90,12 +90,13 @@ body, html {
 
 canvas {
   display: block;
-  border: 2px solid #D1D1D6;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 2px solid #347ae39e;
+  box-shadow: 10 4px 12px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 800px;
   height: auto;
   cursor: default; /* Курсор по умолчанию */
+  border-radius: 5PX;
 }
 
 .controls {
@@ -106,10 +107,11 @@ canvas {
   display: flex;
   flex-direction: column;
   gap: 10px;
+
 }
 
 input[type="color"] {
-  width: 100%;
+  width: 100px;
   height: 40px;
   border: none;
   border-radius: 8px;
@@ -146,6 +148,7 @@ button {
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  
 }
 
 button:hover {
@@ -153,14 +156,15 @@ button:hover {
 }
 
 #timer {
-  position: absolute;
+  position: fixed;
   top: 10px;
   right: 10px;
+  z-index: 1000;
   font-size: 24px;
   color: white;
   background: rgba(0, 0, 0, 0.5);
   padding: 5px 10px;
-  border-radius: 12px;
+  border-radius: 5px;
   font-weight: 500;
 }
 
@@ -251,15 +255,28 @@ button:hover {
     font-size: 14px;
   }
   .canvas-container {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: auto;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
   }
-
+  
   canvas {
-    max-width: 100%;
-    height: auto;
+    display: block;
+    border: 2px solid #347ae39e;
+    box-shadow: 10 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;  /* Ограничиваем ширину холста */
+    height: auto;      /* Пропорциональное изменение высоты */
+    cursor: default;
+    border-radius: 5px;
   }
-
+  
   .controls {
     top: auto;
     bottom: 10px;
@@ -320,10 +337,23 @@ button:hover {
     font-size: 14px;
   }
 }
+#clearButton  {
+  display: none;
+}
 
-/* Скрываем кнопки рисования и перемещения на настольных компьютерах */
-@media (min-width: 769px) {
-  .mode-controls {
-    display: none;
+
+/* Скрываем элементы управления на мобильных устройствах */
+@media (max-width: 768px) {
+  #clearButton  {
+      display: none;
   }
+
+
+  .controls{
+    position: absolute;
+    left: 50px;
+    bottom: 10px;
+  }
+
+
 }

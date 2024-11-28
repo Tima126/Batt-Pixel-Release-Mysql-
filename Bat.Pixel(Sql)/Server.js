@@ -7,7 +7,11 @@ const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
+<<<<<<< HEAD
 app.use(express.static('public')); // Сервируем статические файлы из папки public
+=======
+app.use(express.static('public'));
+>>>>>>> восстановленная-версия
 
 // Конфигурация подключения к базе данных
 const dbConfig = {
@@ -26,19 +30,37 @@ const dbConfig = {
 >>>>>>> parent of 4921863 (GotovoSql)
 };
 
+// Маршрут для очистки холста
+app.get('/clear', (req, res) => {
+    // Отправляем команду всем подключенным клиентам для очистки холста
+    wss.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify({ clear: true })); 
+        }
+    });
+
+    console.log('Canvas clear command sent to all clients');
+    res.send('Canvas cleared');
+});
+
 wss.on('connection', (ws) => {
     console.log('Client connected');
 
     ws.on('message', async (message) => {
+<<<<<<< HEAD
         const parsedMessage = JSON.parse(message.toString());  // Преобразуем буфер в строку и разбираем JSON
         console.log('Received message:', parsedMessage);
 
         // Проверяем наличие поля userName и устанавливаем значение по умолчанию, если оно отсутствует
+=======
+        const parsedMessage = JSON.parse(message.toString());
+        console.log('Received message:', parsedMessage);
+
+>>>>>>> восстановленная-версия
         if (!parsedMessage.userName) {
             parsedMessage.userName = 'Unknown';
         }
 
-        // Сохраняем данные в базу данных
         try {
             const connection = await mysql.createConnection(dbConfig);
             const [rows, fields] = await connection.execute(
@@ -50,10 +72,14 @@ wss.on('connection', (ws) => {
             console.error('Database error:', err);
         }
 
-        // Рассылаем сообщение всем подключенным клиентам
+        // Отправляем обновленную информацию всем клиентам
         wss.clients.forEach((client) => {
             if (client.readyState === WebSocket.OPEN) {
+<<<<<<< HEAD
                 client.send(JSON.stringify(parsedMessage));  // Отправляем сообщение в формате JSON
+=======
+                client.send(JSON.stringify(parsedMessage));
+>>>>>>> восстановленная-версия
             }
         });
     });

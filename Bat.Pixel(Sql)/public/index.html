@@ -1,23 +1,28 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Пиксельная Арт</title>
+  <title>Pixel Art</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap"
+    rel="stylesheet">
   <script src="styleSwitcher.js" defer></script>
 </head>
+
 <body>
   <main>
     <div id="modal" class="modal">
       <div class="modal-content">
         <h2>Добро пожаловать в PixelBattle!</h2>
-        <p>Пожалуйста, введите ваше имя:</p>
-        <input type="text" id="username" placeholder="Ваше имя">
-        <button id="submitName">Отправить</button>
+        <p>Пожалуйста введи своё имя:</p>
+        <input type="text" id="username" placeholder="Your name">
+        <button id="submitName">Submit</button>
       </div>
     </div>
-    
+
     <div class="canvas-container">
       <canvas id="canvas" width="800" height="600" aria-label="Пиксельная Арт Канвас"></canvas>
     </div>
@@ -34,7 +39,7 @@
     <div class="mode-controls">
       <button id="drawButton">Рисовать</button>
       <button id="moveButton">Передвигать</button>
-    </div>
+  </div>
   </main>
   <script>
     const modal = document.getElementById('modal');
@@ -76,6 +81,7 @@
 
   </script>
   <script src="Pain.js" defer></script>
-  <script src="PainMobile.js" defer></script>
+
 </body>
+
 </html>
