@@ -4,36 +4,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const bufferCanvas = document.createElement('canvas');
     const bufferCtx = bufferCanvas.getContext('2d');
     const colorPicker = document.getElementById('colorPicker');
-<<<<<<< HEAD
-    const clearButton = document.getElementById('clearButton');
-
-=======
 
     const timerElement = document.getElementById('timer');
->>>>>>> восстановленная-версия
     const canvasContainer = document.querySelector('.canvas-container');
     const coordinatesElement = document.getElementById('coordinates');
     const zoomInButton = document.getElementById('zoomInButton');
     const zoomOutButton = document.getElementById('zoomOutButton');
-<<<<<<< HEAD
-  
-    const socket = new WebSocket('ws://192.168.50.36:3000'); 
-  
+
+    const socket = new WebSocket('ws://192.168.1.4:4000');
+
     const pixelSize = 10; // Размер пикселя
-<<<<<<< Updated upstream
-    const drawCooldown = 10000; 
-=======
     const drawCooldown = 10000; // 30 секунд в миллисекундах
->>>>>>> Stashed changes
-  
-=======
 
-    const socket = new WebSocket('ws://192.168.1.5:3000');
-
-    const pixelSize = 10; // Размер пикселя
-    const drawCooldown = 0; // 30 секунд в миллисекундах
-
->>>>>>> восстановленная-версия
     bufferCanvas.width = canvas.width;
     bufferCanvas.height = canvas.height;
 
@@ -42,11 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let offsetX = 0, offsetY = 0;
     let pixels = {}; // Объект для хранения цветов пикселей
     let scale = 1; // Масштаб холста
-<<<<<<< HEAD
-    let isTouchDrawing = false; // Флаг для рисования при касании экрана
-    let isDrawing = false; // Флаг для рисования мышью
-  
-=======
 
     window.clearCanvas = function () {
         console.log('Очистка холста...');
@@ -68,7 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
->>>>>>> восстановленная-версия
     socket.addEventListener('open', () => {
         console.log('WebSocket connection established');
     });
@@ -171,33 +147,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const rect = canvas.getBoundingClientRect();
         const x = Math.floor((event.clientX - rect.left) / (pixelSize * scale));
         const y = Math.floor((event.clientY - rect.top) / (pixelSize * scale));
-<<<<<<< HEAD
-  
-=======
 
 
         coordinatesElement.textContent = `X: ${x}, Y: ${y}`;
 
->>>>>>> восстановленная-версия
         if (isDragging) {
             offsetX += event.clientX - startX;
             offsetY += event.clientY - startY;
             canvas.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
             startX = event.clientX;
             startY = event.clientY;
-<<<<<<< HEAD
-        } else if (isDrawing) {
-            draw(event);
-        } else {
-            coordinatesElement.textContent = `X: ${x}, Y: ${y}`;
-        }
-    });
-  
-=======
         }
     });
 
->>>>>>> восстановленная-версия
     canvas.addEventListener('mouseup', (event) => {
         if (event.button === 1 || event.button === 2) { // Средняя или правая кнопка мыши
             isDragging = false;
@@ -205,15 +167,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-
- 
-=======
-   
-
-  
-=======
     // Сенсорные события для управления перемещением холста
     let lastTouchX = 0;
     let lastTouchY = 0;
@@ -286,7 +239,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
->>>>>>> восстановленная-версия
 
     canvas.addEventListener('mouseleave', () => {
         isDragging = false;
@@ -294,18 +246,11 @@ document.addEventListener('DOMContentLoaded', () => {
         canvasContainer.style.cursor = 'default';
         coordinatesElement.textContent = `X: 0, Y: 0`;
     });
-<<<<<<< HEAD
->>>>>>> Stashed changes
-  
-
-  
-=======
 
     canvas.addEventListener('contextmenu', (event) => {
         event.preventDefault(); // Предотвращаем появление контекстного меню
     });
 
->>>>>>> восстановленная-версия
     function draw(event) {
         const rect = canvas.getBoundingClientRect();
         const x = Math.floor((event.clientX - rect.left) / (pixelSize * scale));
@@ -319,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Отправляем данные на сервер через WebSocket
         if (socket.readyState === WebSocket.OPEN) {
-            const data = JSON.stringify({ x, y, color });
+            const data = JSON.stringify({ x, y, color, userName });
             socket.send(data);
         } else {
             console.error('WebSocket is not open. Unable to send data.');

@@ -7,27 +7,19 @@ const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
-<<<<<<< HEAD
-app.use(express.static('public')); // Сервируем статические файлы из папки public
-=======
+
 app.use(express.static('public'));
->>>>>>> восстановленная-версия
+
 
 // Конфигурация подключения к базе данных
 const dbConfig = {
-<<<<<<< HEAD
-    host: 'localhost', 
-    user: 'root', 
-    password: 'Tima2006', 
-    database: 'battle_pixe', 
-    port: 3306 
-=======
+
     host: 'localhost', // Укажите правильный хост
     user: 'root', // Укажите правильного пользователя
     password: 'Tima2006', // Укажите правильный пароль
     database: 'pixelBattle', // Укажите правильное имя базы данных
     port: 3306 // Порт по умолчанию для MySQL
->>>>>>> parent of 4921863 (GotovoSql)
+
 };
 
 // Маршрут для очистки холста
@@ -47,16 +39,10 @@ wss.on('connection', (ws) => {
     console.log('Client connected');
 
     ws.on('message', async (message) => {
-<<<<<<< HEAD
-        const parsedMessage = JSON.parse(message.toString());  // Преобразуем буфер в строку и разбираем JSON
-        console.log('Received message:', parsedMessage);
 
-        // Проверяем наличие поля userName и устанавливаем значение по умолчанию, если оно отсутствует
-=======
         const parsedMessage = JSON.parse(message.toString());
         console.log('Received message:', parsedMessage);
 
->>>>>>> восстановленная-версия
         if (!parsedMessage.userName) {
             parsedMessage.userName = 'Unknown';
         }
@@ -75,11 +61,9 @@ wss.on('connection', (ws) => {
         // Отправляем обновленную информацию всем клиентам
         wss.clients.forEach((client) => {
             if (client.readyState === WebSocket.OPEN) {
-<<<<<<< HEAD
-                client.send(JSON.stringify(parsedMessage));  // Отправляем сообщение в формате JSON
-=======
+
                 client.send(JSON.stringify(parsedMessage));
->>>>>>> восстановленная-версия
+
             }
         });
     });
