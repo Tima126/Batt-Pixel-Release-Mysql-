@@ -11,10 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const zoomInButton = document.getElementById('zoomInButton');
     const zoomOutButton = document.getElementById('zoomOutButton');
 
-    const socket = new WebSocket('ws://192.168.1.4:4000');
+    const socket = new WebSocket('ws://192.168.1.4:3000');
 
-    const pixelSize = 10; // Размер пикселя
-    const drawCooldown = 10000; // 30 секунд в миллисекундах
+    const pixelSize = 10; 
+    const drawCooldown = 0; 
 
     bufferCanvas.width = canvas.width;
     bufferCanvas.height = canvas.height;
@@ -22,8 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let isDragging = false;
     let startX, startY;
     let offsetX = 0, offsetY = 0;
-    let pixels = {}; // Объект для хранения цветов пикселей
-    let scale = 1; // Масштаб холста
+    let pixels = {}; 
+    let scale = 1; 
 
     window.clearCanvas = function () {
         console.log('Очистка холста...');
