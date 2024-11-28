@@ -1,4 +1,5 @@
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -10,69 +11,7 @@ body, html {
   align-items: center;
   color: #000000;
 }
-/* Модальное окно (фон) */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgb(0, 89, 255); /* Полупрозрачный черный фон */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000; 
 
-}
-
-/* Контент модального окна */
-.modal-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0px 4px 16px rgb(11, 126, 220);
-  width: 300px;
-  max-width: 80%;
-
-}
-
-/* Стили для текста и элементов */
-.modal-content h2 {
-  font-family: "M PLUS Rounded 1c", sans-serif;
-  margin-bottom: 15px;
-}
-
-.modal-content p {
-  font-family:"M PLUS Rounded 1c", sans-serif;
-  margin-bottom: 15px;
-}
-
-.modal-content input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #2855ea;
-  border-radius: 8px;
-  font-size: 16px;
-  font-family:"M PLUS Rounded 1c", sans-serif ;
-}
-
-.modal-content button {
-  padding: 10px 20px;
-  background-color: #0051ff; 
-  color: rgb(0, 0, 0);
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  font-family:"M PLUS Rounded 1c", sans-serif ;
-  font-weight: 400;
-}
-
-.modal-content button:hover {
-  background-color: #005bb5;
-}
 
 
 
@@ -92,17 +31,19 @@ canvas {
   display: block;
   border: 2px solid #347ae39e;
   box-shadow: 10 4px 12px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 800px;
+  width: 800px;
+
   height: auto;
-  cursor: default; /* Курсор по умолчанию */
+  cursor: default;
+  /* Курсор по умолчанию */
   border-radius: 5PX;
 }
 
 .controls {
   position: absolute;
   top: 50%;
-  left: calc(50% + 420px); /* С учетом увеличенной границы */
+  left: calc(50% + 420px);
+  /* С учетом увеличенной границы */
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
@@ -126,7 +67,8 @@ input[type="color"] {
   bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
-  font-family: 'Press Start 2P', cursive; /* Пиксельный шрифт */
+  font-family: 'Press Start 2P', cursive;
+  /* Пиксельный шрифт */
   font-size: 14px;
   color: #fff;
   background: rgba(0, 0, 0, 0.5);
@@ -148,7 +90,7 @@ button {
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  
+
 }
 
 button:hover {
@@ -170,25 +112,41 @@ button:hover {
 
 /* Стили для модального окна */
 .modal {
-  display: none; /* Скрыто по умолчанию */
-  position: fixed; /* Фиксированное положение */
-  z-index: 1; /* Поверх всего */
+  display: none;
+  /* Скрыто по умолчанию */
+  position: fixed;
+  /* Фиксированное положение */
+  z-index: 1;
+  /* Поверх всего */
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  overflow: auto; /* Включаем прокрутку, если нужно */
-  background-color: rgba(0,0,0,0.4); /* Черный фон с прозрачностью */
+  overflow: auto;
+  /* Включаем прокрутку, если нужно */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Черный фон с прозрачностью */
 }
 
+
+/* Контент модального окна */
 .modal-content {
-  background-color: #fefefe;
-  margin: 15% auto; /* 15% сверху и по центру */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 30%;
+  background-color: #fff;
+  border-radius: 12px;
   text-align: center;
+  box-shadow: 0px 4px 16px rgb(78, 80, 82);
+
+  max-width: 80%;
+  margin: 15% auto;
+  padding: 20px;
+  width: 40%;
+
 }
+
+
+
+
+
 
 /* Стили для информации о пикселе */
 #pixelInfo {
@@ -206,6 +164,13 @@ button:hover {
   padding: 10px;
   margin: 10px 0;
   box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #2855ea;
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: "M PLUS Rounded 1c", sans-serif;
 }
 
 .modal-content button {
@@ -240,20 +205,56 @@ button:hover {
   font-size: 18px;
 }
 
-/* Медиа-запросы для мобильных устройств */
-@media (max-width: 768px) {
-  body, html {
+@media(max-width:1000px){
+  button {
+    padding: 8px 16px;
     font-size: 14px;
   }
+  input[type="color"] {
+    width: 40px;
+    height: 40px;
+  }
   .controls {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
     flex-direction: row;
     gap: 5px;
+    /* Убедитесь, что элементы управления находятся поверх других элементов */
+  }
+
+
+}
+
+
+
+
+@media (max-width: 410px) {
+
+  body,
+  html {
+    font-size: 14px;
+  }
+
+  .controls {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    z-index: 1000;
+    /* Убедитесь, что элементы управления находятся поверх других элементов */
   }
 
   button {
     padding: 8px 16px;
     font-size: 14px;
   }
+
   .canvas-container {
     position: absolute;
     top: 0;
@@ -265,32 +266,24 @@ button:hover {
     align-items: center;
     overflow: hidden;
   }
-  
+
   canvas {
     display: block;
     border: 2px solid #347ae39e;
     box-shadow: 10 4px 12px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 800px;  /* Ограничиваем ширину холста */
-    height: auto;      /* Пропорциональное изменение высоты */
+    width: 800px;
+   
+    /* Ограничиваем ширину холста */
+    height: auto;
+    /* Пропорциональное изменение высоты */
     cursor: default;
     border-radius: 5px;
-  }
-  
-  .controls {
-    top: auto;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    flex-direction: row;
-    gap: 5px;
   }
 
   input[type="color"] {
     width: 40px;
     height: 40px;
   }
-
 
   #timer {
     top: 5px;
@@ -332,28 +325,74 @@ button:hover {
     gap: 5px;
   }
 
+  #clearButton {
+    display: none;
+  }
+
   .mode-controls button {
     padding: 8px 16px;
     font-size: 14px;
   }
+
+  /* Стили для модального окна */
+  .modal {
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Черный фон с прозрачностью */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-content {
+    background-color: #fefefe;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+    border-radius: 12px;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .modal-content h2 {
+    margin-bottom: 15px;
+  }
+
+  .modal-content p {
+    margin-bottom: 15px;
+  }
+
+  .modal-content input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #1f58d4;
+    border-radius: 8px;
+    font-size: 16px;
+  }
+
+  .modal-content button {
+    padding: 10px 20px;
+    background-color: #1f58d4;
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+
+    cursor: pointer;
+  }
+
+  .modal-content button:hover {
+    background-color: #005bb5;
+  }
 }
-#clearButton  {
+
+#clearButton {
   display: none;
 }
 
-
-/* Скрываем элементы управления на мобильных устройствах */
-@media (max-width: 768px) {
-  #clearButton  {
-      display: none;
-  }
-
-
-  .controls{
-    position: absolute;
-    left: 50px;
-    bottom: 10px;
-  }
-
-
-}
