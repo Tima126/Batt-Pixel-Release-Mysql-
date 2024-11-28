@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const socket = new WebSocket('ws://192.168.1.5:3000');
 
     const pixelSize = 10; // Размер пикселя
-    const drawCooldown = 10000; // 30 секунд в миллисекундах
+    const drawCooldown = 0; // 30 секунд в миллисекундах
 
     bufferCanvas.width = canvas.width;
     bufferCanvas.height = canvas.height;
