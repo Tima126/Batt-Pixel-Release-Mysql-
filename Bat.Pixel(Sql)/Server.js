@@ -11,20 +11,20 @@ const wss = new WebSocket.Server({ server });
 app.use(express.static('public'));
 
 
-// Конфигурация подключения к базе данных
+
 const dbConfig = {
 
-    host: 'localhost', // Укажите правильный хост
-    user: 'root', // Укажите правильного пользователя
-    password: 'Tima2006', // Укажите правильный пароль
-    database: 'battle_pixe', // Укажите правильное имя базы данных
-    port: 3306 // Порт по умолчанию для MySQL
+    host: 'localhost', 
+    user: 'root', 
+    password: 'Tima2006', 
+    database: 'battle_pixe', 
+    port: 3306 
 
 };
 
 // Маршрут для очистки холста
 app.get('/clear', (req, res) => {
-    // Отправляем команду всем подключенным клиентам для очистки холста
+   
     wss.clients.forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
             client.send(JSON.stringify({ clear: true })); 
