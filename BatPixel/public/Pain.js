@@ -4,14 +4,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const bufferCanvas = document.createElement('canvas');
     const bufferCtx = bufferCanvas.getContext('2d');
     const colorPicker = document.getElementById('colorPicker');
-
     const timerElement = document.getElementById('timer');
     const canvasContainer = document.querySelector('.canvas-container');
     const coordinatesElement = document.getElementById('coordinates');
     const zoomInButton = document.getElementById('zoomInButton');
     const zoomOutButton = document.getElementById('zoomOutButton');
 
-    const socket = new WebSocket('ws://0.0.0.0/');
+    const socket = new WebSocket('ws://batt-pixel-release-mysql-3.onrender.com/');
 
     const pixelSize = 10; 
     const drawCooldown = 0; 
