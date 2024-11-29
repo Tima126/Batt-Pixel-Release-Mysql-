@@ -1,10 +1,10 @@
 const express = require('express');
-const https = require('https');
+const http = require('http');
 const WebSocket = require('ws');
 const mysql = require('mysql2/promise');
 
 const app = express();
-const server = https.createServer(app);
+const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
 
