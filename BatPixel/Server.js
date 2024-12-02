@@ -7,30 +7,26 @@ const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
-
 app.use(express.static('public'));
 
-
-
 const dbConfig = {
-
     host: 'localhost', 
     user: 'root', 
     password: 'Tima2006', 
     database: 'battle_pixe', 
     port: 3306 
-
 };
+
+let canvasState = {}; 
 
 // Маршрут для очистки холста
 app.get('/clear', (req, res) => {
-   
+    canvasState = {}; 
     wss.clients.forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
             client.send(JSON.stringify({ clear: true })); 
         }
     });
-
     console.log('Canvas clear command sent to all clients');
     res.send('Canvas cleared');
 });
@@ -38,8 +34,10 @@ app.get('/clear', (req, res) => {
 wss.on('connection', (ws) => {
     console.log('Client connected');
 
-    ws.on('message', async (message) => {
+    
+    ws.send(JSON.stringify({ type: 'init', state: Object.entries(canvasState).map(([key, value]) => ({ x: key.split(',')[0], y: key.split(',')[1], color: value })) }));
 
+    ws.on('message', async (message) => {
         const parsedMessage = JSON.parse(message.toString());
         console.log('Received message:', parsedMessage);
 
@@ -58,12 +56,13 @@ wss.on('connection', (ws) => {
             console.error('Database error:', err);
         }
 
-        // Отправляем обновленную информацию всем клиентам
+       
+        canvasState[`${parsedMessage.x},${parsedMessage.y}`] = parsedMessage.color;
+
+       
         wss.clients.forEach((client) => {
             if (client.readyState === WebSocket.OPEN) {
-
                 client.send(JSON.stringify(parsedMessage));
-
             }
         });
     });

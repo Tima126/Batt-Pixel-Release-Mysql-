@@ -26,23 +26,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.clearCanvas = function () {
         console.log('Очистка холста...');
-
-        // Локальная очистка
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         bufferCtx.clearRect(0, 0, bufferCanvas.width, bufferCanvas.height);
-
-        // Уведомляем сервер
         if (socket.readyState === WebSocket.OPEN) {
             socket.send(JSON.stringify({ clear: true }));
             console.log('Команда очистки отправлена через WebSocket');
         } else {
             console.warn('WebSocket не подключён.');
         }
-
-        saveCanvasState(); // Сохраняем состояние
+        saveCanvasState();
     };
-
-
 
     socket.addEventListener('open', () => {
         console.log('WebSocket connection established');
@@ -64,11 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (message.clear) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             bufferCtx.clearRect(0, 0, bufferCanvas.width, bufferCanvas.height);
-            saveCanvasState(); // Сохраняем состояние после очистки
+            saveCanvasState(); 
         } else {
             const { x, y, color } = message;
             drawPixel(x, y, color);
-            saveCanvasState(); // Сохраняем состояние после рисования
+            saveCanvasState(); 
         }
     });
 
@@ -76,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         bufferCtx.fillStyle = color;
         bufferCtx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
         ctx.drawImage(bufferCanvas, 0, 0);
-        pixels[`${x},${y}`] = color; // Сохраняем цвет пикселя
+        pixels[`${x},${y}`] = color; 
     }
 
     function canDraw() {
@@ -100,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function saveCanvasState() {
         const canvasImage = bufferCanvas.toDataURL();
         localStorage.setItem('canvasState', canvasImage);
-        localStorage.setItem('pixelsState', JSON.stringify(pixels)); // Сохраняем состояние пикселей
+        localStorage.setItem('pixelsState', JSON.stringify(pixels)); 
     }
 
     function loadCanvasState() {
@@ -146,7 +139,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const rect = canvas.getBoundingClientRect();
         const x = Math.floor((event.clientX - rect.left) / (pixelSize * scale));
         const y = Math.floor((event.clientY - rect.top) / (pixelSize * scale));
-
 
         coordinatesElement.textContent = `X: ${x}, Y: ${y}`;
 
@@ -207,7 +199,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-
     canvas.addEventListener('touchmove', (event) => {
         if (isDragging && event.touches.length === 1) { // Проверяем, что касание одно
             const touch = event.touches[0];
@@ -228,7 +219,6 @@ document.addEventListener('DOMContentLoaded', () => {
         canvasContainer.style.cursor = 'default';
     });
 
-
     // Обработчик touchend для сброса переменной initialDistance
     canvas.addEventListener('touchend', (event) => {
         if (event.touches.length < 2) {
@@ -236,8 +226,6 @@ document.addEventListener('DOMContentLoaded', () => {
             initialDistance = 0;
         }
     });
-
-
 
     canvas.addEventListener('mouseleave', () => {
         isDragging = false;
@@ -298,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const zoomFactor = 0.1;
         const delta = event.deltaY > 0 ? -zoomFactor : zoomFactor;
         scale += delta;
-        scale = Math.max(0.5, Math.min(scale, 3)); // Ограничиваем масштаб от 0.5 до 3
+        scale = Math.max(0.5, Math.min(3)); // Ограничиваем масштаб от 0.5 до 3
 
         // Вычисляем смещение, чтобы масштабирование происходило относительно текущей позиции курсора
         const rect = canvas.getBoundingClientRect();
