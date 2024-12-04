@@ -30,15 +30,12 @@ document.addEventListener('DOMContentLoaded', () => {
         bufferCtx.clearRect(0, 0, bufferCanvas.width, bufferCanvas.height);
         sendMessage({ clear: true });
         
-
         pixels = {};
         
-
         localStorage.removeItem('canvasState');
         localStorage.removeItem('pixelsState');
 
-        
-        saveCanvasState(); // Сохраняем очищенное состояние
+        saveCanvasState(); 
     };
 
     socket.addEventListener('open', () => {
@@ -174,33 +171,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    canvas.addEventListener('touchstart', (event) => {
-        if (event.touches.length === 2) {
-            isDragging = true;
-            const touch1 = event.touches[0];
-            const touch2 = event.touches[1];
-
-            const dx = touch2.clientX - touch1.clientX;
-            const dy = touch2.clientY - touch1.clientY;
-            initialDistance = Math.sqrt(dx * dx + dy * dy);
-        }
-    });
-    canvas.addEventListener('touchmove', (event) => {
-        if (event.touches.length === 2) {
-            const touch1 = event.touches[0];
-            const touch2 = event.touches[1];
-
-            const dx = touch2.clientX - touch1.clientX;
-            const dy = touch2.clientY - touch1.clientY;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-
-            const scaleFactor = distance / initialDistance;
-            scale = Math.max(0.5, Math.min(5, lastScale * scaleFactor)); // Ограничиваем масштаб от 0.5 до 5
-
-            canvas.style.transform = `scale(${scale})`;
-        }
-    });
-
     canvas.addEventListener('touchmove', (event) => {
         if (isDragging && event.touches.length === 1) { // Проверяем, что касание одно
             const touch = event.touches[0];
@@ -221,17 +191,8 @@ document.addEventListener('DOMContentLoaded', () => {
         canvasContainer.style.cursor = 'default';
     });
 
-    // Обработчик touchend для сброса переменной initialDistance
-    canvas.addEventListener('touchend', (event) => {
-        if (event.touches.length < 2) {
-            lastScale = scale;
-            initialDistance = 0;
-        }
-    });
-
     canvas.addEventListener('mouseleave', () => {
         isDragging = false;
-        isDrawing = false; // Сбрасываем флаг рисования
         canvasContainer.style.cursor = 'default';
         coordinatesElement.textContent = `X: 0, Y: 0`;
     });
