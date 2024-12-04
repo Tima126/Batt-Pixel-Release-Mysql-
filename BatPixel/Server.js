@@ -8,14 +8,15 @@ const wss = new WebSocket.Server({ server });
 
 app.use(express.static('public'));
 
-let canvasState = {}; 
+let canvasState = {}; // Объект для хранения состояния холста
 
 // Маршрут для очистки холста
 app.get('/clear', (req, res) => {
-    canvasState = {}; 
+    canvasState = {}; // Очищаем состояние холста
+    // Отправляем всем клиентам команду очистки
     wss.clients.forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify({ clear: true })); 
+            client.send(JSON.stringify({ clear: true }));
         }
     });
     console.log('Canvas clear command sent to all clients');
@@ -25,7 +26,7 @@ app.get('/clear', (req, res) => {
 wss.on('connection', (ws) => {
     console.log('Client connected');
 
-    // Отправляем текущее состояние холста новому клиенту
+    // Отправляем текущие данные холста новому клиенту
     ws.send(JSON.stringify({ type: 'init', state: Object.entries(canvasState).map(([key, value]) => ({ x: key.split(',')[0], y: key.split(',')[1], color: value })) }));
 
     ws.on('message', (message) => {
@@ -38,14 +39,15 @@ wss.on('connection', (ws) => {
 
         // Обрабатываем команду на очистку холста
         if (parsedMessage.clear) {
-            canvasState = {}; // Очищаем объект canvasState
+            canvasState = {}; // Очищаем холст
+            // Отправляем команду очистки всем клиентам
             wss.clients.forEach((client) => {
                 if (client.readyState === WebSocket.OPEN) {
-                    client.send(JSON.stringify({ clear: true })); 
+                    client.send(JSON.stringify({ clear: true }));
                 }
             });
-            console.log('Canvas clear command sent to all clients');
-            return; // Прекращаем обработку сообщения
+            console.log('Canvas cleared');
+            return;
         }
 
         // Обновляем состояние холста
