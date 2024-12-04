@@ -29,7 +29,16 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         bufferCtx.clearRect(0, 0, bufferCanvas.width, bufferCanvas.height);
         sendMessage({ clear: true });
-        saveCanvasState();
+        
+
+        pixels = {};
+        
+
+        localStorage.removeItem('canvasState');
+        localStorage.removeItem('pixelsState');
+
+        
+        saveCanvasState(); // Сохраняем очищенное состояние
     };
 
     socket.addEventListener('open', () => {
@@ -111,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         bufferCtx.clearRect(0, 0, bufferCanvas.width, bufferCanvas.height);
         sendMessage({ clear: true });
-        saveCanvasState();
+        localStorage.removeItem('pixelsState'); 
     });
 
     canvas.addEventListener('mousedown', (event) => {

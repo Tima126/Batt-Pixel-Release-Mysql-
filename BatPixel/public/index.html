@@ -58,16 +58,6 @@
       if (userName) {
         modal.style.display = 'none';
         localStorage.setItem('userName', userName); // Сохраняем имя в localStorage
-
-        // Пример отправки данных на сервер через WebSocket
-        const pixelData = {
-          x: 0,  // Пример координаты X
-          y: 0,  // Пример координаты Y
-          color: '#ffffff',  // Пример цвета
-          userName: userName  // Имя пользователя
-        };
-
-        ws.send(JSON.stringify(pixelData));  // Отправляем данные на сервер
       } else {
         alert('Пожалуйста, введите имя!');
       }
@@ -76,7 +66,7 @@
     ws.onmessage = (message) => {
       const data = JSON.parse(message.data);
       console.log('Получены данные с сервера:', data);
-      // Здесь можно обновить канвас новыми пикселями от других пользователей
+      
     };
 
   </script>
