@@ -28,12 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Очистка холста...');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         bufferCtx.clearRect(0, 0, bufferCanvas.width, bufferCanvas.height);
-        if (socket.readyState === WebSocket.OPEN) {
-            socket.send(JSON.stringify({ clear: true }));
-            console.log('Команда очистки отправлена через WebSocket');
-        } else {
-            console.warn('WebSocket не подключён.');
-        }
+        sendMessage({ clear: true });
         saveCanvasState();
     };
 
@@ -115,10 +110,8 @@ document.addEventListener('DOMContentLoaded', () => {
     clearButton.addEventListener('click', () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         bufferCtx.clearRect(0, 0, bufferCanvas.width, bufferCanvas.height);
-        if (socket.readyState === WebSocket.OPEN) {
-            socket.send(JSON.stringify({ clear: true })); // Сообщаем другим клиентам очистить холст
-        }
-        saveCanvasState(); // Сохраняем состояние после очистки
+        sendMessage({ clear: true });
+        saveCanvasState();
     });
 
     canvas.addEventListener('mousedown', (event) => {
@@ -250,12 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
         saveCanvasState(); // состояние после рисования
 
         // Отправляем данные на сервер через WebSocket
-        if (socket.readyState === WebSocket.OPEN) {
-            const data = JSON.stringify({ x, y, color, userName });
-            socket.send(data);
-        } else {
-            console.error('WebSocket is not open. Unable to send data.');
-        }
+        sendMessage({ x, y, color, userName });
     }
 
     zoomInButton.addEventListener('click', () => {
@@ -310,4 +298,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Убедитесь, что таймер обновляется каждую секунду
     setInterval(updateTimer, 1000);
+
+    function sendMessage(message) {
+        if (socket.readyState === WebSocket.OPEN) {
+            socket.send(JSON.stringify(message));
+        } else {
+            console.error('WebSocket is not open. Unable to send data.');
+        }
+    }
 });

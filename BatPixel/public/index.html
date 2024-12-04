@@ -47,7 +47,7 @@
     const submitNameButton = document.getElementById('submitName');
     let userName = '';
 
-    const ws = new WebSocket('ws://localhost:3000');
+    const ws = new WebSocket('wss://batt-pixel-release-mysql-3.onrender.com/');
 
     // Открываем модальное окно для ввода имени, если имя еще не задано
     modal.style.display = 'block';
