@@ -36,6 +36,18 @@ wss.on('connection', (ws) => {
             parsedMessage.userName = 'Unknown';
         }
 
+        // Обрабатываем команду на очистку холста
+        if (parsedMessage.clear) {
+            canvasState = {}; // Очищаем объект canvasState
+            wss.clients.forEach((client) => {
+                if (client.readyState === WebSocket.OPEN) {
+                    client.send(JSON.stringify({ clear: true })); 
+                }
+            });
+            console.log('Canvas clear command sent to all clients');
+            return; // Прекращаем обработку сообщения
+        }
+
         // Обновляем состояние холста
         canvasState[`${parsedMessage.x},${parsedMessage.y}`] = parsedMessage.color;
 
@@ -52,7 +64,7 @@ wss.on('connection', (ws) => {
     });
 });
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);
 });
