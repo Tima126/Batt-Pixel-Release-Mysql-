@@ -1,21 +1,12 @@
 const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
-const mysql = require('mysql2/promise');
 
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
 app.use(express.static('public'));
-
-const dbConfig = {
-    host: 'localhost', 
-    user: 'root', 
-    password: 'Tima2006', 
-    database: 'battle_pixe', 
-    port: 3306 
-};
 
 let canvasState = {}; 
 
@@ -34,10 +25,10 @@ app.get('/clear', (req, res) => {
 wss.on('connection', (ws) => {
     console.log('Client connected');
 
-    
+    // Отправляем текущее состояние холста новому клиенту
     ws.send(JSON.stringify({ type: 'init', state: Object.entries(canvasState).map(([key, value]) => ({ x: key.split(',')[0], y: key.split(',')[1], color: value })) }));
 
-    ws.on('message', async (message) => {
+    ws.on('message', (message) => {
         const parsedMessage = JSON.parse(message.toString());
         console.log('Received message:', parsedMessage);
 
@@ -45,21 +36,10 @@ wss.on('connection', (ws) => {
             parsedMessage.userName = 'Unknown';
         }
 
-        try {
-            const connection = await mysql.createConnection(dbConfig);
-            const [rows, fields] = await connection.execute(
-                'INSERT INTO Pixels (X, Y, Color, UserName) VALUES (?, ?, ?, ?)',
-                [parsedMessage.x, parsedMessage.y, parsedMessage.color, parsedMessage.userName]
-            );
-            connection.end();
-        } catch (err) {
-            console.error('Database error:', err);
-        }
-
-       
+        // Обновляем состояние холста
         canvasState[`${parsedMessage.x},${parsedMessage.y}`] = parsedMessage.color;
 
-       
+        // Отправляем обновление всем клиентам
         wss.clients.forEach((client) => {
             if (client.readyState === WebSocket.OPEN) {
                 client.send(JSON.stringify(parsedMessage));
