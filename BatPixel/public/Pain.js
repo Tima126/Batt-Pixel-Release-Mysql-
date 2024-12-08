@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pixels = {}; // Очищаем локальное состояние
         sendMessage({ type: 'clear' }); // Отправляем команду серверу
     }
-
+    window.clearCanvas = clearCanvas;
     socket.addEventListener('open', () => {
         console.log('WebSocket connection established');
     });
