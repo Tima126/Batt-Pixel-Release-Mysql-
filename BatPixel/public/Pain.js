@@ -10,10 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const zoomInButton = document.getElementById('zoomInButton');
     const zoomOutButton = document.getElementById('zoomOutButton');
 
-    const socket = new WebSocket('wss://batt-pixel-release-mysql-3.onrender.com/');
+    const socket = new WebSocket('ws://localhost');
 
     const pixelSize = 10; 
-    const drawCooldown = 10; 
+    const drawCooldown = 10000; 
 
     bufferCanvas.width = canvas.width;
     bufferCanvas.height = canvas.height;
@@ -263,10 +263,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Восстанавливаем состояние холста при загрузке страницы
     loadCanvasState();
 
-    // Обновляем таймер сразу после загрузки состояния
+
     updateTimer();
 
-    // Убедитесь, что таймер обновляется каждую секунду
+   
     setInterval(updateTimer, 1000);
 
     function sendMessage(message) {
