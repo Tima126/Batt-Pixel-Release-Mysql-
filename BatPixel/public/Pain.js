@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const socket = new WebSocket('wss://batt-pixel-release-mysql-3.onrender.com/');
 
     const pixelSize = 10; 
-    const drawCooldown = 0; 
+    const drawCooldown = 10; 
 
     bufferCanvas.width = canvas.width;
     bufferCanvas.height = canvas.height;
