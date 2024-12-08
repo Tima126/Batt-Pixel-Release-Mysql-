@@ -50,19 +50,20 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('WebSocket error:', error);
     });
 
-    socket.addEventListener('message', (event) => {
+       socket.addEventListener('message', (event) => {
         const message = JSON.parse(event.data);
 
         if (message.type === 'init') {
+            clearCanvas(); // Сбрасываем локальное состояние
             message.state.forEach(({ x, y, color }) => drawPixel(x, y, color));
+            console.log('Canvas initialized from server');
         } else if (message.clear) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            bufferCtx.clearRect(0, 0, bufferCanvas.width, bufferCanvas.height);
-            saveCanvasState(); 
+            clearCanvas(); // Синхронизация очистки
+            console.log('Canvas cleared by server');
+        } else if ('x' in message && 'y' in message && 'color' in message) {
+            drawPixel(message.x, message.y, message.color);
         } else {
-            const { x, y, color } = message;
-            drawPixel(x, y, color);
-            saveCanvasState(); 
+            console.warn('Unknown message received:', message);
         }
     });
 
