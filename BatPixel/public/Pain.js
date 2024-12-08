@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const zoomInButton = document.getElementById('zoomInButton');
     const zoomOutButton = document.getElementById('zoomOutButton');
 
-    const socket = new WebSocket('ws://localhost');
+    const socket = new WebSocket('wss://batt-pixel-release-mysql-3.onrender.com/');
 
     const pixelSize = 10; 
     const drawCooldown = 10000; 
