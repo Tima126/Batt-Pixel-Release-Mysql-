@@ -24,19 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let pixels = {}; 
     let scale = 1; 
 
-    window.clearCanvas = function () {
-        console.log('Очистка холста...');
+    function clearCanvas() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         bufferCtx.clearRect(0, 0, bufferCanvas.width, bufferCanvas.height);
-        sendMessage({ clear: true });
-        
-        pixels = {};
-        
-        localStorage.removeItem('canvasState');
-        localStorage.removeItem('pixelsState');
-
-        saveCanvasState(); 
-    };
+        pixels = {}; // Очищаем локальное состояние
+        sendMessage({ type: 'clear' }); // Отправляем команду серверу
+    }
 
     socket.addEventListener('open', () => {
         console.log('WebSocket connection established');
@@ -52,17 +45,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     socket.addEventListener('message', (event) => {
         const message = JSON.parse(event.data);
-
         if (message.type === 'init') {
             message.state.forEach(({ x, y, color }) => drawPixel(x, y, color));
-        } else if (message.clear) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            bufferCtx.clearRect(0, 0, bufferCanvas.width, bufferCanvas.height);
-            saveCanvasState(); 
-        } else {
-            const { x, y, color } = message;
-            drawPixel(x, y, color);
-            saveCanvasState(); 
+        }
+    });
+
+
+    socket.addEventListener('message', (event) => {
+        const message = JSON.parse(event.data);
+        if (message.type === 'clear') {
+            clearCanvas(); 
         }
     });
 
